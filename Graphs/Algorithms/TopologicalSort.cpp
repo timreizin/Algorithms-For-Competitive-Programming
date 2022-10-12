@@ -1,7 +1,5 @@
 #include <vector>
 
-const long long INF = 1e18;
-
 std::vector<int> topSort(const std::vector<std::vector<int>> &adj)
 {
     std::vector<int> sorted;
