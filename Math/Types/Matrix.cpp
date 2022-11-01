@@ -106,3 +106,17 @@ public:
         *this = *this * m;
     }
 };
+
+template <typename T>
+Matrix<T> binPow(Matrix<T> a, ll n)
+{
+    Matrix<T> res(a.size().first, a.size().second);
+    for (int i = 0; i < res.size().first; ++i) res[i][i] = T(1);
+    while (n)
+    {
+        if (n & 1) res *= a;
+        a *= a;
+        n >>= 1;
+    }
+    return res;
+}
