@@ -1,7 +1,7 @@
 template <class T = long long>
 T binPow(T base, long long power)
 {
-    T result = 1;
+    T result = T(1);
     while (power)
     {
         if (power & 1)
