@@ -1,4 +1,4 @@
-void fft(std::vector<std::complex<long double>> &a, std::vector<int> &indexInEnd, std::vector<std::complex<long double>> &roots)
+void fft(std::vector<std::complex<long double>> &a, const std::vector<int> &indexInEnd, const std::vector<std::complex<long double>> &roots)
 {
     int n = (int)a.size();
     for (int i = 0; i < n; ++i)
@@ -18,7 +18,7 @@ void fft(std::vector<std::complex<long double>> &a, std::vector<int> &indexInEnd
     }
 }
 
-void inverseFft(std::vector<std::complex<long double>> &a, std::vector<int> &indexInEnd, std::vector<std::complex<long double>> &roots)
+void inverseFft(std::vector<std::complex<long double>> &a, const std::vector<int> &indexInEnd, const std::vector<std::complex<long double>> &roots)
 {
     fft(a, indexInEnd, roots);
     for (int i = 0; i < a.size(); ++i)
