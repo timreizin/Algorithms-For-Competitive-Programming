@@ -1,14 +1,12 @@
-#include <vector>
-
 template <class T = long long>
 class SegmentTree
 {
 private:
-    
+
     int amount;
     std::vector<T> tree;
-    std:: vector<T> mod;
-    
+    std::vector<T> mod;
+
     void push(int l, int r, int v)
     {
         if (mod[v] != 0)
@@ -21,10 +19,11 @@ private:
             mod[v] = 0;
         }
     }
-    
+
     void buildTree(int l, int r, int v, const std::vector<T> &a)
     {
-        if (l > r) return;
+        if (l > r)
+            return;
         if (l == r)
         {
             tree[v] = a[l];
@@ -35,19 +34,22 @@ private:
         buildTree(m + 1, r, v << 1 | 1, a);
         tree[v] = tree[v << 1] + tree[v << 1 | 1];
     }
-    
+
     T get(int a, int b, int l, int r, int v)
     {
-        if (a > r || b < l) return 0ll;
-        if (a == l && b == r) return tree[v];
+        if (a > r || b < l)
+            return 0ll;
+        if (a == l && b == r)
+            return tree[v];
         push(l, r, v);
         int m = (l + r) >> 1;
         return get(a, std::min(b, m), l, m, v << 1) + get(std::max(a, m + 1), b, m + 1, r, v << 1 | 1);
     }
-    
+
     void update(int a, int b, int l, int r, int v, T value)
     {
-        if (a > r || b < l) return;
+        if (a > r || b < l)
+            return;
         if (a == l && b == r)
         {
             mod[v] += value;
@@ -60,26 +62,26 @@ private:
         update(std::max(a, m + 1), b, m + 1, r, v << 1 | 1, value);
         tree[v] = tree[v << 1] + tree[v << 1 | 1];
     }
-    
+
 public:
-    
+
     SegmentTree(int n = 0) : amount(n)
     {
         tree.resize(4 * amount + 5);
         mod.resize(4 * amount + 5);
     }
-    
+
     SegmentTree(const std::vector<T> &a)
     {
         SegmentTree((int)a.size());
         buildTree(0, amount - 1, 1, a);
     }
-    
+
     T get(int a, int b)
     {
         return get(a, b, 0, amount - 1, 1);
     }
-    
+
     void update(int a, int b, T value)
     {
         update(a, b, 0, amount - 1, 1, value);
