@@ -1,4 +1,4 @@
-pair<int, int> floyd(int s, vector<int> &next)
+std::pair<int, int> floyd(int s, std::vector<int> &next)
 {
     int a, b;
     a = b = s;
