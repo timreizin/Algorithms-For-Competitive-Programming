@@ -1,11 +1,11 @@
-void SPFA(int s, vector<vector<pair<int, ll>>> &adj, vector<ll> &d)
+void SPFA(int s, std::vector<std::vector<std::pair<int, long long>>> &adj, std::vector<long long> &d)
 {
     //if vertex has been used more than n - 1 time, there is a cycle of negative weight
     //to get cycle use array of parents
-    d = vector<ll>(adj.size(), 1e18);
+    d = std::vector<long long>(adj.size(), 1e18);
     d[s] = 0;
-    vector<bool> inQueue(adj.size(), false);
-    queue<int> q;
+    std::vector<bool> inQueue(adj.size());
+    std::queue<int> q;
     q.push(s);
     while (!q.empty())
     {
