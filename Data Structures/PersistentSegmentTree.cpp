@@ -1,16 +1,18 @@
+template <class T>
 class PersistentSegmentTree
 {
 private:
 
     int index;
     int amount;
-    vector<ll> tree;
-    vector<pair<int, int>> child;
-    vector<int> versions;
+    std::vector<T> tree;
+    std::vector<std::pair<int, int>> child;
+    std::vector<int> versions;
 
-    int build(int l, int r, vector<ll>& a)
+    int build(int l, int r, const std::vector<T>& a)
     {
-        if (l > r) return -1;
+        if (l > r)
+            return -1;
         tree.push_back(0);
         child.emplace_back(-1, -1);
         int v = index++;
@@ -28,17 +30,20 @@ private:
         return v;
     }
 
-    ll get(int a, int b, int v, int l, int r)
+    T get(int a, int b, int v, int l, int r)
     {
-        if (a > r || b < l || v == -1) return 0;
-        if (a == l && b == r) return tree[v];
+        if (a > r || b < l || v == -1)
+            return T();
+        if (a == l && b == r)
+            return tree[v];
         int m = (l + r) >> 1;
-        return get(a, min(b, m), child[v].first, l, m) + get(max(a, m + 1), b, child[v].second, m + 1, r);
+        return get(a, std::min(b, m), child[v].first, l, m) + get(std::max(a, m + 1), b, child[v].second, m + 1, r);
     }
 
-    int update(int pos, ll val, int v, int l, int r)
+    int update(int pos, T val, int v, int l, int r)
     {
-        if (l > r || v == -1) return -1;
+        if (l > r || v == -1)
+            return -1;
         tree.push_back(tree[v]);
         child.push_back(child[v]);
         int newV = index++;
@@ -66,21 +71,21 @@ public:
 
     PersistentSegmentTree(int n) : amount(n), index(0)
     {
-        vector<ll> a(n, 0);
+        std::vector<T> a(n, 0);
         versions.push_back(build(0, n - 1, a));
     }
 
-    PersistentSegmentTree(int n, vector<ll>& a) : amount(n), index(0)
+    PersistentSegmentTree(int n, const std::vector<T> a) : amount(n), index(0)
     {
         versions.push_back(build(0, n - 1, a));
     }
 
-    ll get(int version, int l, int r)
+    T get(int version, int l, int r)
     {
         return get(l, r, versions[version], 0, amount - 1);
     }
 
-    void update(int version, int pos, ll val)
+    void update(int version, int pos, T val)
     {
         versions.push_back(update(pos, val, versions[version], 0, amount - 1));
     }
