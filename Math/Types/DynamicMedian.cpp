@@ -1,4 +1,4 @@
-template <class T>
+template <class T = long long>
 class DynamicMedian
 {
 private:
