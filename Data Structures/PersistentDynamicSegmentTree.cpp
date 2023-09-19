@@ -1,30 +1,34 @@
+template <class T>
 class PersistentDynamicSegmentTree
 {
 private:
 
     int index;
-    ll maxValue;
-    vector<ll> tree;
-    vector<int> versions;
-    vector<pair<int, int>> child;
+    long long maxValue;
+    std::vector<T> tree;
+    std::vector<int> versions;
+    std::vector<std::pair<int, int>> child;
 
-    ll get(ll a, ll b, ll l, ll r, int v)
+    T get(long long a, long long b, long long l, long long r, int v)
     {
-        if (v == -1 || a > r || b < l) return 0ll;
-        if (a <= l && b >= r) return tree[v];
-        ll m = l + (r - l) / 2;
-        return get(a, min(b, m), l, m, child[v].first) + get(max(a, m + 1), b, m + 1, r, child[v].second);
+        if (v == -1 || a > r || b < l)
+            return T(0);
+        if (a <= l && b >= r)
+            return tree[v];
+        long long m = l + (r - l) / 2;
+        return get(a, std::min(b, m), l, m, child[v].first) + get(std::max(a, m + 1), b, m + 1, r, child[v].second);
     }
 
-    void updateNew(ll pos, ll l, ll r, int v, ll value)
+    void updateNew(long long pos, long long l, long long r, int v, T value)
     {
-        if (l > r) return;
+        if (l > r)
+            return;
         if (l == r)
         {
-            tree[v] = +value;
+            tree[v] += value;
             return;
         }
-        ll m = l + (r - l) / 2;
+        long long m = l + (r - l) / 2;
         if (pos <= m)
         {
             if (child[v].first == -1)
@@ -48,9 +52,10 @@ private:
         tree[v] = (child[v].first == -1 ? 0 : tree[child[v].first]) + (child[v].second == -1 ? 0 : tree[child[v].second]);
     }
 
-    int updatePresent(ll pos, ll l, ll r, int v, ll value)
+    int updatePresent(long long pos, long long l, long long r, int v, T value)
     {
-        if (l > r) return -1;
+        if (l > r)
+            return -1;
         tree.push_back(tree[v]);
         child.push_back(child[v]);
         int newV = index++;
@@ -59,7 +64,7 @@ private:
             tree[newV] += value;
             return newV;
         }
-        ll m = l + (r - l) / 2;
+        long long m = l + (r - l) / 2;
         if (pos <= m)
         {
             if (child[v].first == -1)
@@ -97,19 +102,19 @@ private:
 
 public:
 
-    PersistentDynamicSegmentTree(ll maxVal) : index(1), maxValue(maxVal)
+    PersistentDynamicSegmentTree(T maxValue) : index(1), maxValue(maxValue)
     {
         tree.push_back(0);
         child.push_back({-1, -1});
         versions.push_back(0);
     }
 
-    ll get(int version, ll a, ll b)
+    T get(int version, long long a, long long b)
     {
         return get(a, b, 0, maxValue, versions[version]);
     }
 
-    void update(int version, ll pos, ll value)
+    void update(int version, long long pos, T value)
     {
         versions.push_back(updatePresent(pos, 0, maxValue, versions[version], value));
     }
