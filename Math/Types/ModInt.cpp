@@ -62,13 +62,13 @@ public:
         *this = *this / number;
     }
 
-    friend ostream& operator<<(ostream &out, const ModNumber<T, MOD> &n)
+    friend std::ostream& operator<<(std::ostream &out, const ModNumber<T, MOD> &n)
     {
         out << n.number;
         return out;
     }
 
-    friend istream& operator>>(istream &in, ModNumber<T, MOD> &n)
+    friend std::istream& operator>>(std::istream &in, ModNumber<T, MOD> &n)
     {
         in >> n.number;
         n.number %= MOD;
