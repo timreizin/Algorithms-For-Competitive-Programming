@@ -5,23 +5,19 @@ private:
     const static int base = 1000000000;   //base of number, should be power of 10
     const static int base_digits = 9;     //amount of base10 digits in base
 
-    vector<int> digits;
+    std::vector<int> digits;
     int sign;
 
     //Trims leading zeros
     void trim()
     {
         while (!digits.empty() && digits.back() == 0)
-        {
             digits.pop_back();
-        }
         if (digits.empty())
-        {
             sign = 1;
-        }
     }
 
-    pair<BigInt, BigInt> division(const BigInt &number1, const BigInt &number2) const
+    std::pair<BigInt, BigInt> division(const BigInt &number1, const BigInt &number2) const
     {
         BigInt result, currentValue;
         result.sign = number1.sign * number2.sign;
@@ -34,13 +30,9 @@ private:
             {
                 int m = (l + r) >> 1;
                 if (abs(number2) * m <= currentValue)
-                {
                     l = m + 1;
-                }
                 else
-                {
                     r = m;
-                }
             }
             result.digits[i] = l - 1;
             currentValue -= abs(number2) * BigInt(l - 1);
@@ -63,12 +55,10 @@ public:
         sign = (int)(n != 0ll ? n / abs(n) : 1ll);
         n = abs(n);
         for (; n > 0; n /= base)
-        {
             digits.push_back(n % base);
-        }
     }
     //Constructor, sets number = s
-    BigInt(const string &s)
+    BigInt(const std::string &s)
     {
         sign = 1;
         digits.clear();
@@ -76,18 +66,14 @@ public:
         while (pos < (int)s.size() && (s[pos] == '-' || s[pos] == '+'))
         {
             if (s[pos] == '-')
-            {
                 sign = -sign;
-            }
             ++pos;
         }
         for (int i = (int)s.size() - 1; i >= pos; i -= base_digits)
         {
             int digit = 0;
-            for (int j = max(pos, i - base_digits + 1); j <= i; ++j)
-            {
+            for (int j = std::max(pos, i - base_digits + 1); j <= i; ++j)
                 digit = digit * 10 + (s[j] - '0');
-            }
             digits.push_back(digit);
         }
         trim();
@@ -122,18 +108,14 @@ public:
         if (sign == number.sign)
         {
             BigInt result = number;
-            for (int i = 0, carry = 0; i < (int)max(digits.size(), number.digits.size()) || carry; ++i)
+            for (int i = 0, carry = 0; i < (int)std::max(digits.size(), number.digits.size()) || carry; ++i)
             {
                 if (i == (int)result.digits.size())
-                {
                     result.digits.push_back(0);
-                }
                 result.digits[i] += carry + (i < (int)digits.size() ? digits[i] : 0);
                 carry = result.digits[i] >= base;
                 if (carry)
-                {
                     result.digits[i] -= base;
-                }
             }
             result.trim();
             return result;
@@ -154,9 +136,7 @@ public:
                     result.digits[i] -= carry + (i < (int)number.digits.size() ? number.digits[i] : 0);
                     carry = result.digits[i] < 0;
                     if (carry)
-                    {
                         result.digits[i] += base;
-                    }
                 }
                 result.trim();
                 return result;
@@ -231,20 +211,12 @@ public:
     bool operator<(const BigInt &number) const
     {
         if (sign != number.sign)
-        {
             return sign < number.sign;
-        }
         if ((int)digits.size() != (int)number.digits.size())
-        {
             return (int)digits.size() * sign < (int)number.digits.size() * number.sign;
-        }
         for (int i = (int)digits.size() - 1; i >= 0; --i)
-        {
             if (digits[i] != number.digits[i])
-            {
                 return digits[i] * sign < number.digits[i] * sign;
-            }
-        }
         return false;
     }
 
@@ -279,26 +251,22 @@ public:
     }
 
     //Input operator overload
-    friend istream& operator>>(istream &in, BigInt &number)
+    friend std::istream& operator>>(std::istream &in, BigInt &number)
     {
-        string s;
+        std::string s;
         in >> s;
         number = s;
         return in;
     }
 
     //Output operator overload
-    friend ostream& operator<<(ostream &out, const BigInt &number)
+    friend std::ostream& operator<<(std::ostream &out, const BigInt &number)
     {
         if (number.sign == -1)
-        {
             out << '-';
-        }
         out << (number.digits.empty() ? 0 : number.digits.back());
         for (int i = (int)number.digits.size() - 2; i >= 0; --i)
-        {
-            out << setw(base_digits) << setfill('0') << number.digits[i];
-        }
+            out << std::setw(base_digits) << std::setfill('0') << number.digits[i];
         return out;
     }
 
@@ -326,7 +294,7 @@ public:
     //Swap two numbers
     friend void swap(BigInt &a, BigInt &b)
     {
-        swap(a.sign, b.sign);
+        std::swap(a.sign, b.sign);
         a.digits.swap(b.digits);
     }
 };
