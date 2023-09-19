@@ -1,5 +1,5 @@
 
-template <class T>
+template <class T = long double>
 T ternarySearch(T l, T r, const T (*f)(T), const T &EPS)
 {
     while (r - l > EPS)
