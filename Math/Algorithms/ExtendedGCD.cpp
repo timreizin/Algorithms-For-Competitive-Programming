@@ -1,4 +1,4 @@
-template <class T>
+template <class T = long long>
 T extendedGCD(T a, T b, T &x, T &y)
 {
     if (a == 0)
