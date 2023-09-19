@@ -1,4 +1,4 @@
-template <class T>
+template <class T = long long>
 std::vector<T> sosDP(const std::vector<T> &a, int n)
 {
     std::vector<T> dp(a.size());
