@@ -1,8 +1,8 @@
-ll countMoves(string &s1, string &s2)
+long long countMoves(const std::string &s1, const std::string &s2)
 {
     int n = (int)s1.size();
-    vector<int> p(n);
-    array<vector<int>, 26> sI1, sI2;
+    std::vector<int> p(n);
+    std::array<std::vector<int>, 26> sI1, sI2;
     for (int i = 0; i < n; ++i)
     {
         sI1[s1[i] - 'a'].push_back(i);
