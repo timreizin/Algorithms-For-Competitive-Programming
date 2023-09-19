@@ -1,5 +1,3 @@
-#include <vector>
-
 std::pair<std::vector<int>, std::vector<int>> sieveOfEratosthenes(int n)
 {
     std::vector<int> smallestDivisor(n + 1, 0);
