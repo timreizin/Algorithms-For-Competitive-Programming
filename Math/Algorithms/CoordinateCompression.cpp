@@ -1,11 +1,11 @@
 template <class T>
-map<T, int> compress(vector<T> &a)
+std::vector<int> compress(std::vector<T> values, bool isSorted = false)
 {
-    vector<T> help = a;
-    sort(help.begin(), help.end());
-    help.erase(unique(help.begin(), help.end()), help.end());
-    map<T, int> mapper;
-    for (int i = 0; i < help.size(); ++i) mapper[help[i]] = i;
-    for (T &i : a) i = mapper[i];
-    return mapper;
+    std::vector compressed = values;
+    if (!isSorted)
+        std::sort(values.begin(), values.end());
+    values.erase(std::unique(values.begin(), values.end()), values.end());
+    for (T &i : compressed)
+        i = std::distance(values.begin(), std::lower_bound(values.begin(), values.end(), i));
+    return compressed;
 }
