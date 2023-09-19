@@ -1,4 +1,4 @@
-template <class T>
+template <class T = long double>
 T gaussianElimination(std::vector<std::vector<T>> a, std::vector<T> &res)
 {
     std::vector<T> where((int)a.front().size() - 1, -1);
