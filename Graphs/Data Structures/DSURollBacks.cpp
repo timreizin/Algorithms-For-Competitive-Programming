@@ -1,5 +1,6 @@
-struct DSU_rb
+class DSU_rb
 {
+private:
 
     struct operation
     {
@@ -15,17 +16,20 @@ struct DSU_rb
         }
     };
 
-    vector<int> rank;
-    vector<int> parent;
+    std::vector<int> rank;
+    std::vector<int> parent;
     int components;
 
-    stack<operation> opers;
+    std::stack<operation> opers;
 
+public:
+    
     DSU_rb(int n)
     {
         rank.resize(n);
         parent.resize(n);
-        for (int i = 0; i < n; ++i) parent[i] = i;
+        for (int i = 0; i < n; ++i)
+            parent[i] = i;
         components = n;
     }
 
@@ -43,18 +47,21 @@ struct DSU_rb
             opers.push(operation(-1, -1, -1, -1));
             return;
         }
-        if (rank[v] < rank[u]) swap(u, v);
+        if (rank[v] < rank[u])
+            std::swap(u, v);
         --components;
         opers.push(operation(v, rank[v], u, rank[u]));
         parent[u] = v;
-        if (rank[v] == rank[u]) ++rank[v];
+        if (rank[v] == rank[u])
+            ++rank[v];
     }
 
     void rollback()
     {
         operation op = opers.top();
         opers.pop();
-        if (op.v == -1) return;
+        if (op.v == -1)
+            return;
         ++components;
         rank[op.v] = op.rankV;
         rank[op.u] = op.rankU;;
