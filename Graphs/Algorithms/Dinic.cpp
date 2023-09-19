@@ -1,12 +1,12 @@
 struct Edge
 {
     int v;
-    ll capacity;
-    ll flow;
+    long long capacity;
+    long long flow;
     int indexOfReversed;
 };
 
-ll dfsDinic(int u, ll flow, int t, vector<int> &startIndex, vector<int> &level, vector<vector<Edge>> &adj)
+long long dfsDinic(int u, long long flow, int t, std::vector<int> &startIndex, const std::vector<int> &level, std::vector<std::vector<Edge>> &adj)
 {
     if (u == t) return flow;
     for (; startIndex[u] < adj[u].size(); ++startIndex[u])
@@ -14,7 +14,7 @@ ll dfsDinic(int u, ll flow, int t, vector<int> &startIndex, vector<int> &level, 
         Edge &edge = adj[u][startIndex[u]];
         if (level[edge.v] == level[u] + 1 && edge.flow < edge.capacity)
         {
-            ll newFlow = dfsDinic(edge.v, min(flow, edge.capacity - edge.flow), t, startIndex, level, adj);
+            long long newFlow = dfsDinic(edge.v, std::min(flow, edge.capacity - edge.flow), t, startIndex, level, adj);
             if (newFlow > 0)
             {
                 edge.flow += newFlow;
@@ -26,11 +26,11 @@ ll dfsDinic(int u, ll flow, int t, vector<int> &startIndex, vector<int> &level, 
     return 0;
 }
 
-bool bfsDinic(int s, int t, vector<int> &level, vector<vector<Edge>> &adj)
+bool bfsDinic(int s, int t, std::vector<int> &level, const std::vector<std::vector<Edge>> &adj)
 {
-    level = vector<int>(adj.size(), -1);
+    level = std::vector<int>(adj.size(), -1);
     level[s] = 0;
-    queue<int> q;
+    std::queue<int> q;
     q.push(s);
     while (!q.empty())
     {
@@ -48,9 +48,9 @@ bool bfsDinic(int s, int t, vector<int> &level, vector<vector<Edge>> &adj)
     return level[t] != -1;
 }
 
-ll maxFlowDinic(int s, int t, vector<vector<pair<int, ll>>> &adj)
+long long maxFlowDinic(int s, int t, std::vector<std::vector<std::pair<int, long long>>> &adj)
 {
-    vector<vector<Edge>> adjFlow(adj.size());
+    std::vector<std::vector<Edge>> adjFlow(adj.size());
     for (int i = 0; i < adj.size(); ++i)
     {
         for (auto [v, c] : adj[i])
@@ -59,15 +59,13 @@ ll maxFlowDinic(int s, int t, vector<vector<pair<int, ll>>> &adj)
             adjFlow[v].push_back({i, 0, 0, (int)adjFlow[i].size() - 1});
         }
     }
-    vector<int> level(adj.size());
-    ll flow = 0;
+    std::vector<int> level(adj.size());
+    long long flow = 0;
     while (bfsDinic(s, t, level, adjFlow))
     {
-        vector<int> startIndex(adj.size());
-        while (ll newFlow = dfsDinic(s, 1e9, t, startIndex, level, adjFlow))
-        {
+        std::vector<int> startIndex(adj.size());
+        while (long long newFlow = dfsDinic(s, 1e9, t, startIndex, level, adjFlow))
             flow += newFlow;
-        }
     }
     return flow;
 }
