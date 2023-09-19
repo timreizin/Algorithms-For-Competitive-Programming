@@ -1,7 +1,3 @@
-#include <vector>
-#include <queue>
-#include <functional>
-
 std::pair<std::vector<long long>, std::vector<int>> dijkstra(const std::vector<int> starts, const int n, const std::vector<std::vector<std::pair<int, long long>>> &adj)
 {
     std::vector<long long> distances;
