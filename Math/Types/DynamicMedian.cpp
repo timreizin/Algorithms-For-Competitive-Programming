@@ -1,13 +1,25 @@
-struct dynMed
+template <class T>
+class DynamicMedian
 {
-    multiset<int> l{-1};
-    multiset<int> r{(int)1e9 + 1};
+private:
 
-    void insert(int val)
+    std::multiset<T> l;
+    std::multiset<T> r;
+
+public:
+
+    DynamicMedian(const T minT, const T maxT)
+    {
+        l.insert(minT);
+        r.insert(maxT);
+    }
+
+    void insert(const T val)
     {
         if (l.size() == r.size())
         {
-            if (val <= (*r.begin())) l.insert(val);
+            if (val <= (*r.begin()))
+                l.insert(val);
             else
             {
                 r.insert(val);
@@ -17,7 +29,8 @@ struct dynMed
         }
         else
         {
-            if (val >= (*r.begin())) r.insert(val);
+            if (val >= (*r.begin()))
+                r.insert(val);
             else
             {
                 l.insert(val);
@@ -27,14 +40,12 @@ struct dynMed
         }
     }
 
-    void erase(int val)
+    void erase(T val)
     {
         if (l.size() == r.size())
         {
             if (val >= (*r.begin()))
-            {
                 r.erase(r.find(val));
-            }
             else
             {
                 l.erase(l.find(val));
@@ -45,9 +56,7 @@ struct dynMed
         else
         {
             if (val <= (*l.rbegin()))
-            {
                 l.erase(l.find(val));
-            }
             else
             {
                 r.erase(r.find(val));
@@ -57,7 +66,7 @@ struct dynMed
         }
     }
 
-    int median()
+    T median()
     {
         return (*l.rbegin());
     }
