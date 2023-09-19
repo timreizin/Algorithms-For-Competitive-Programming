@@ -1,4 +1,4 @@
-bool findEulerPath(vector<vector<pair<int, int>>> &adjUsed, vector<int> &path, bool isCycle = true, int v = -1)
+bool findEulerPath(const std::vector<std::vector<std::pair<int, int>>> &adjUsed, std::vector<int> &path, bool isCycle = true, int v = -1)
 {
     path.clear();
     int counter = 0;
@@ -8,18 +8,22 @@ bool findEulerPath(vector<vector<pair<int, int>>> &adjUsed, vector<int> &path, b
     {
         if (adjUsed[i].size() & 1)
         {
-            if (v == -1) v = i;
-            if (v == i) was = true;
+            if (v == -1)
+                v = i;
+            if (v == i)
+                was = true;
             ++counter;
         }
-        for (auto [j, e] : adjUsed[i]) maxEdge = max(maxEdge, e);
+        for (auto [j, e] : adjUsed[i])
+            maxEdge = std::max(maxEdge, e);
     }
-    if (counter > 2 || counter == 1 || !was || (counter == 2 && isCycle)) return false;
-    stack<int> st;
+    if (counter > 2 || counter == 1 || !was || (counter == 2 && isCycle))
+        return false;
+    std::stack<int> st;
     if (v == -1) v = 1;
     st.push(v);
-    vector<bool> usedEdges(maxEdge + 1);
-    vector<int> start(adjUsed.size());
+    std::vector<bool> usedEdges(maxEdge + 1);
+    std::vector<int> start(adjUsed.size());
     while (!st.empty())
     {
         int v = st.top();
@@ -40,7 +44,9 @@ bool findEulerPath(vector<vector<pair<int, int>>> &adjUsed, vector<int> &path, b
             path.push_back(v);
         }
     }
-    for (int i = 1; i < adjUsed.size(); ++i) if (start[i] == 0 && adjUsed[i].size() > 0) return false;
-    reverse(path.begin(), path.end());
+    for (int i = 1; i < adjUsed.size(); ++i)
+        if (start[i] == 0 && adjUsed[i].size() > 0)
+            return false;
+    std::reverse(path.begin(), path.end());
     return true;
 }
