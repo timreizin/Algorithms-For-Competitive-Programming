@@ -1,4 +1,4 @@
-template <class T>
+template <class T = long long>
 T binPow(T base, long long power)
 {
     T result = 1;
