@@ -1,7 +1,9 @@
-vector<ll> sosDP(vector<ll> &a, int n)
+template <class T>
+std::vector<T> sosDP(const std::vector<T> &a, int n)
 {
-    vector<ll> dp(a.size());
-    for (int i = 0; i < a.size(); ++i) dp[i] = a[i];
+    std::vector<T> dp(a.size());
+    for (int i = 0; i < a.size(); ++i)
+        dp[i] = a[i];
     for (int i = 0; i < n; ++i)
     {
         for (int mask = 0; mask < (1 << n); ++mask)
